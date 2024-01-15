@@ -55,6 +55,7 @@ public:
 
    // List of fields.
    unsigned int seq;
+   long timestamp;
    std::string frame_id;
 };
 }

@@ -44,11 +44,15 @@ public:
 
    void fromMiddleware(const std_msgs::Header & message, kpsr::geometry::Header & event) {
       event.seq = message.seq;
+      event.timestamp = static_cast<long>(message.stamp.sec) * 1000 + static_cast<long>(message.stamp.nsec) / 1e6;
       event.frame_id = message.frame_id;
    }
 
    void toMiddleware(const kpsr::geometry::Header & event, std_msgs::Header & message) {
       message.seq = event.seq;
+      double seconds = static_cast<double>(event.timestamp) / 1000.0;
+      message.stamp.sec = static_cast<int>(seconds);
+      message.stamp.nsec = static_cast<int>((seconds - static_cast<double>(message.stamp.sec)) * 1e9);
       message.frame_id = event.frame_id;
    }
 };
